@@ -4,9 +4,9 @@ import { EpisodeService } from '@/services/episodeService';
 import { EpisodeResponseInfo, IEpisode } from '@/types/dataTypes';
 
 
-const getEpisodeListThunk = createAsyncThunk("episode/list", async (payload: void, { dispatch }) => {
+const getEpisodeListThunk = createAsyncThunk("episode/list", async ({ page }: { page: number }, { dispatch }) => {
     dispatch(setLoading(true));
-    let response = await EpisodeService.getEpisodeList();
+    let response = await EpisodeService.getEpisodeList(page);
 
     if (response?.status === 200) {
         dispatch(setLoading(false));
@@ -43,8 +43,14 @@ const episodeSlice = createSlice({
         });
         builder.addCase(getEpisodeListThunk.fulfilled, (state, action) => {
             state.status = 'success';
-            state.episodeList = state.episodeList.concat(action.payload.results);
-            state.displayEpisodeList = state.episodeList;
+            const newEpisodes = action.payload.results;
+            state.episodeList = [...state.episodeList, ...newEpisodes];
+
+            // Yalnızca yeni bölümler varsa displayEpisodeList'i güncelle
+            if (newEpisodes.length > 0) {
+                state.displayEpisodeList = [...state.displayEpisodeList, ...newEpisodes];
+            }
+
             state.EpisodeResponseInfo = {
                 count: action.payload.info.count,
                 pages: action.payload.info.pages,

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import SafeAreaWrapper from '@/components/shared/SafeAreaWrapper';
-import { GenericView } from '@/assets/css';
+import { GenericText, GenericTouchableOpacity, GenericView } from '@/assets/css';
 import AppHeader from '@/components/shared/AppHeader';
 import { FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,13 +22,14 @@ const HomeScreen: React.FC = ({ navigation }: any) => {
 
     useEffect(() => {
         setFavoriteCharacterList();
-        dispatch(getEpisodeListThunk());
+        dispatch(getEpisodeListThunk({ page: 1 }));
     }, []);
+
 
     const loadMore = () => {
         // eğer episodeResponseInfo.next null değilse yani bir sonraki sayfa varsa
         if (episodeResponseInfo.next) {
-            dispatch(getEpisodeListThunk());
+            dispatch(getEpisodeListThunk({ page: parseInt(episodeResponseInfo.next.split('=')[1]) }));
         }
     }
     const searchEpisodeList = useCallback((query: string) => {
@@ -39,6 +40,7 @@ const HomeScreen: React.FC = ({ navigation }: any) => {
         const favoriteData = await StorageService.getItem('favoriteData');
         if (favoriteData) {
             dispatch(setfavoriteCharacterList(JSON.parse(favoriteData)));
+            console.log("favoriteData ::::: ", JSON.parse(favoriteData));
         }
     }
 
@@ -56,11 +58,12 @@ const HomeScreen: React.FC = ({ navigation }: any) => {
                 </GenericView>
                 <GenericView>
                     <FlatList
+                        keyExtractor={(item) => item.id.toString()}
                         numColumns={2}
                         data={displayEpisodeList}
                         renderItem={renderItem}
-                        keyExtractor={(item, index) => item.id.toString() + ':' + index}
-                    /* onEndReached={loadMore} */
+                        onEndReached={loadMore}
+                        onEndReachedThreshold={0.5}
                     />
                 </GenericView>
             </GenericView>

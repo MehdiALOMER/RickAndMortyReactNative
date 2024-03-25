@@ -6,17 +6,19 @@ const addFavoriteCharacterThunk = createAsyncThunk('favorite/addFavoriteCharacte
 
     const favoriteData = await StorageService.getItem('favoriteData');
     let favoriteCharacterList: ICharacter[] = [];
-    character.isFavourite = true;
+    // character isFavourite değeri true yapılıyor
+    const characterObj = { ...character, isFavourite: true };
+
     if (favoriteData) {
         favoriteCharacterList = JSON.parse(favoriteData);
-        let index = favoriteCharacterList.findIndex((item: ICharacter) => item.id === character.id);
+        let index = favoriteCharacterList.findIndex((item: ICharacter) => item.id === characterObj.id);
         if (index === -1) {
-            favoriteCharacterList.push(character);
+            favoriteCharacterList.push(characterObj);
         }
         await StorageService.setItem('favoriteData', JSON.stringify(favoriteCharacterList));
     }
     else {
-        favoriteCharacterList.push(character);
+        favoriteCharacterList.push(characterObj);
         await StorageService.setItem('favoriteData', JSON.stringify(favoriteCharacterList));
     }
     return favoriteCharacterList;
@@ -27,10 +29,12 @@ const removeFavoriteCharacterThunk = createAsyncThunk('favorite/removeFavoriteCh
 
     const favoriteData = await StorageService.getItem('favoriteData');
     let favoriteCharacterList: ICharacter[] = [];
-    character.isFavourite = false;
+    // character isFavourite değeri true yapılıyor
+    const characterObj = { ...character, isFavourite: false };
+
     if (favoriteData) {
         favoriteCharacterList = JSON.parse(favoriteData);
-        let index = favoriteCharacterList.findIndex((item: ICharacter) => item.id === character.id);
+        let index = favoriteCharacterList.findIndex((item: ICharacter) => item.id === characterObj.id);
         if (index !== -1) {
             favoriteCharacterList.splice(index, 1);
         }
