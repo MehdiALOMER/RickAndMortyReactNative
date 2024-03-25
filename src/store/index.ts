@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import loadingReducer from './reducers/loadingReducer';
 import episodeReducer from './reducers/episodeReducer';
 import episodeDetailReducer from './reducers/episodeDetailReducer';
+import favoriteCharacterReducer from './reducers/favoriteCharacterReducer';
 
 
 const store = configureStore({
     reducer: {
         loadingReducer,
         episodeReducer,
-        episodeDetailReducer
+        episodeDetailReducer,
+        favoriteCharacterReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

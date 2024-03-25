@@ -1,5 +1,6 @@
 import { setLoading } from './loadingReducer';
-import { getEpisodeListThunk } from './episodeReducer';
-import { getEpisodeDetailThunk, getCharacterDetailsThunk } from './episodeDetailReducer';
+import { getEpisodeListThunk, seacrhEpisodeList } from './episodeReducer';
+import { getEpisodeDetailThunk, getCharacterDetailsThunk, toggleFavoriteCharacter } from './episodeDetailReducer';
+import { addFavoriteCharacterThunk, removeFavoriteCharacterThunk, setfavoriteCharacterList } from './favoriteCharacterReducer';
 
-export { setLoading, getEpisodeListThunk, getEpisodeDetailThunk, getCharacterDetailsThunk };
+export { setLoading, getEpisodeListThunk, seacrhEpisodeList, getEpisodeDetailThunk, getCharacterDetailsThunk, toggleFavoriteCharacter, addFavoriteCharacterThunk, removeFavoriteCharacterThunk, setfavoriteCharacterList };

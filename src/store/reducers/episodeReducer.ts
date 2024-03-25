@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { setLoading } from "./loadingReducer";
 import { EpisodeService } from '@/services/episodeService';
 import { EpisodeResponseInfo, IEpisode } from '@/types/dataTypes';
-/* import { IPromotion, IPromotionList, ITag } from '@/types/dataTypes'; */
 
 
 const getEpisodeListThunk = createAsyncThunk("episode/list", async (payload: void, { dispatch }) => {
@@ -34,6 +33,9 @@ const episodeSlice = createSlice({
         } as EpisodeResponseInfo,
     },
     reducers: {
+        seacrhEpisodeList: (state, action) => {
+            state.displayEpisodeList = state.episodeList.filter((episode) => episode.name.toLowerCase().includes(action.payload.toLowerCase()));
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(getEpisodeListThunk.pending, (state, action) => {
@@ -42,7 +44,7 @@ const episodeSlice = createSlice({
         builder.addCase(getEpisodeListThunk.fulfilled, (state, action) => {
             state.status = 'success';
             state.episodeList = state.episodeList.concat(action.payload.results);
-            state.displayEpisodeList = state.episodeList.concat(action.payload.results);
+            state.displayEpisodeList = state.episodeList;
             state.EpisodeResponseInfo = {
                 count: action.payload.info.count,
                 pages: action.payload.info.pages,
@@ -56,7 +58,7 @@ const episodeSlice = createSlice({
     }
 });
 
-export const { } = episodeSlice.actions;
+export const { seacrhEpisodeList } = episodeSlice.actions;
 
 export { getEpisodeListThunk };
 

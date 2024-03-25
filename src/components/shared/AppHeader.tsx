@@ -40,8 +40,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 	onRightPress,
 	optionalBtn,
 	optionalBtnPress,
-	headerBg = colors.white,
-	iconColor = colors.black,
+	headerBg = colors.primary,
+	iconColor = colors.white,
 	titleAlign = 'center',
 	optionalBadge,
 }) => {

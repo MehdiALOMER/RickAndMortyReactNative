@@ -1,46 +1,36 @@
 import React from 'react';
 import SafeAreaWrapper from '@/components/shared/SafeAreaWrapper';
-import { GenericText, GenericTouchableOpacity, GenericView } from '@/assets/css';
+import { GenericView } from '@/assets/css';
 import AppHeader from '@/components/shared/AppHeader';
-import { colors, dWidth } from '@/constants';
-import Icon from '@/components/shared/Icons';
+import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+import { ICharacter } from '@/types/dataTypes';
+import { RootState } from '@/store';
+import CharacterItem from '@/components/home/CharacterItem';
+import { dWidth } from '@/constants';
 
 
 const FavoriteCharactersScreen: React.FC = ({ navigation }: any) => {
 
-    const rightComponent = () => {
-        return (
-            <GenericView flexDirection='row'>
-                <GenericView center >
-                    <GenericTouchableOpacity
-                        onPress={() => { }}
-                        borderRadius={30}
-                        backgroundColor={'red'}
-                        padding={dWidth * .025}
-                    >
-                        <GenericText color={colors.white} bold>Giriş Yap</GenericText>
-                    </GenericTouchableOpacity>
-                </GenericView>
-                <GenericView center >
-                    <Icon name='person-circle' size={40} type='Ionicons' color={colors.black} />
-                </GenericView>
-            </GenericView>
-        )
-    }
+    const favoriteCharacterList: ICharacter[] = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacterList || []);
 
-    const leftComponent = () => {
-        return (
-            <GenericView>
-                {/* <GenericImage source={logoImage} width={dWidth * .3} height={dWidth * .3} resizeMode='contain' /> */}
-            </GenericView>
-        )
-    }
+
+    const renderItem = ({ item }: { item: ICharacter }) => {
+        return <CharacterItem character={item} navigation={navigation} />;
+    };
 
     return (
         <SafeAreaWrapper>
-            <AppHeader rightComponent={rightComponent()} leftComponent={leftComponent()} />
-            <GenericView flex={1} >
-
+            <AppHeader title="Favori Karakterler" />
+            <GenericView flex={1} padding={dWidth * .0125}>
+                <GenericView>
+                    <FlatList
+                        numColumns={2}
+                        data={favoriteCharacterList}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => item.id.toString() + ':' + index}
+                    />
+                </GenericView>
             </GenericView>
         </SafeAreaWrapper>
     );

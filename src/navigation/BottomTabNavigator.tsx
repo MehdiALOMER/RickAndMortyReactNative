@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { HomeScreen, FavoriteCharactersScreen } from '@/screens';
 import { colors } from '@/constants';
@@ -16,7 +16,7 @@ const BottomTab = createMaterialBottomTabNavigator();
 
 export default function BottomTabNavigator() {
 
-    /* const cartCount = useSelector((state: RootState) => state.cartReducer.cartCount || 0); */
+    const favoriteCount = useSelector((state: RootState) => state.favoriteCharacterReducer.favoriteCharacterList.length || 0);
 
     const barColors = {
         home: colors.primary,
@@ -44,7 +44,7 @@ export default function BottomTabNavigator() {
             shifting={true}
             activeColor={colors.white}
             barStyle={{
-                backgroundColor: barColors[tab]
+                backgroundColor: barColors[tab],
             }}
         >
             <BottomTab.Screen
@@ -62,8 +62,7 @@ export default function BottomTabNavigator() {
                 name="FavoriteCharactersScreen"
                 component={FavoriteCharactersScreen}
                 options={{
-                    /* tabBarBadge: cartCount > 0 ? cartCount : false, */
-                    tabBarBadge: 10,
+                    tabBarBadge: favoriteCount > 0 ? favoriteCount : false,
                     tabBarColor: barColors.favorite,
                     tabBarLabel: 'Favorite',
                     tabBarIcon: ({ focused }) => (

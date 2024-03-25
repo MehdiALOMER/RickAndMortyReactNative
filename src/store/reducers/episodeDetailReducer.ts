@@ -62,6 +62,16 @@ const episodeDetailSlice = createSlice({
         characterList: [] as ICharacter[]
     },
     reducers: {
+        // ilgili karakterin favori durumunu değiştirmek için kullanılır
+        toggleFavoriteCharacter: (state, action) => {
+            const id = action.payload;
+            let character = state.characterList.find((item: ICharacter) => item.id === id);
+            if (character) {
+                character.isFavourite = !character.isFavourite;
+                state.characterList = [...state.characterList];
+            }
+        }
+
     },
     extraReducers: (builder) => {
         builder.addCase(getEpisodeDetailThunk.pending, (state, action) => {
@@ -87,7 +97,7 @@ const episodeDetailSlice = createSlice({
     }
 });
 
-export const { } = episodeDetailSlice.actions;
+export const { toggleFavoriteCharacter } = episodeDetailSlice.actions;
 
 export { getEpisodeDetailThunk, getCharacterDetailsThunk };
 

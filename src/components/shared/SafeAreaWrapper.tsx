@@ -1,8 +1,8 @@
 import { GenericView } from "@/assets/css"
 import { colors } from "@/constants"
 import { RootState } from "@/store"
-import React, { ReactNode, useEffect } from "react"
-import { StatusBar, BackHandler } from "react-native"
+import React, { ReactNode } from "react"
+import { StatusBar } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { useSelector } from "react-redux"
 import Loader from "./Loader"
@@ -15,31 +15,14 @@ const SafeAreaWrapper = ({ children }: SafeAreaWrapperProps) => {
 
     const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
 
-    useEffect(() => {
-
-
-
-        /* // Geri düğmesi olayını dinlemek için bir olay dinleyici ekleyin
-        BackHandler.addEventListener('hardwareBackPress', handleBackButton)
-
-        // Component sonlandığında olay dinleyicisini kaldırın
-        return () => {
-            BackHandler.removeEventListener('hardwareBackPress', handleBackButton)
-        } */
-
-    }, [])
-
-    const handleBackButton = () => {
-        // Geri düğmesinin işlevsiz olmasını sağlamak için true döndürün
-        return true
-    }
 
     return (
         <>
             <StatusBar
                 barStyle="light-content"
-                backgroundColor={colors.primary}
+                /* backgroundColor={colors.white} */
                 hidden={true}   // status bar ı gizlemek için
+
             />
             <SafeAreaView
                 style={{

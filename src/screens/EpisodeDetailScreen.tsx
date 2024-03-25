@@ -8,6 +8,8 @@ import { ICharacter, IEpisode } from '@/types/dataTypes';
 import { getCharacterDetailsThunk } from '@/store/reducers';
 import { FlatList } from 'react-native';
 import CharacterItem from '@/components/home/CharacterItem';
+import { dWidth } from '@/constants';
+import moment from 'moment';
 
 
 const EpisodeDetailScreen: React.FC = ({ navigation }: any) => {
@@ -31,8 +33,19 @@ const EpisodeDetailScreen: React.FC = ({ navigation }: any) => {
     return (
         <SafeAreaWrapper>
             <AppHeader title={episode.name} back onPressBack={onPressBack} />
-            <GenericView flex={1} >
-                <GenericText>{episode.name}</GenericText>
+            <GenericView flex={1} padding={dWidth * .0125}>
+                <GenericView padding={dWidth * .0125}>
+                    <GenericText>Yayın Tarihi: {episode.air_date}</GenericText>
+                </GenericView>
+                <GenericView padding={dWidth * .0125}>
+                    <GenericText>Oluşturma Tarihi: {moment(episode.created).format('DD.MM.YYYY')}</GenericText>
+                </GenericView>
+                <GenericView padding={dWidth * .0125}>
+                    <GenericText>Episode: {episode.episode}</GenericText>
+                </GenericView>
+                <GenericView padding={dWidth * .0125}>
+                    <GenericText>Karakterler:</GenericText>
+                </GenericView>
                 <GenericView>
                     <FlatList
                         numColumns={2}
